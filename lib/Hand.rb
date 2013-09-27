@@ -39,12 +39,7 @@ class Hand
   private
 
       def royal_flush?
-        if straight_flush?
-          return @cards.all? do |card|
-            card.number >= 10 || card.number == 1
-          end
-        end
-        false
+        straight_flush? && @cards.all?{ |card| card.number >= 10 || card.number == 1}
       end
 
       def straight_flush?
@@ -66,8 +61,9 @@ class Hand
 
       def straight?
         sorted_numbers = num_card_occurrences.keys.sort
+        return true if sorted_numbers == [1,10,11,12,13]
         4.times do |index|
-          return false sorted_numbers[index+1] - sorted_numbers[index] != 1
+          return false if sorted_numbers[index+1] - sorted_numbers[index] != 1
         end
         true
       end
@@ -85,7 +81,12 @@ class Hand
       end
 
       def high_card
-        @cards.sort_by(&:number).pop
+        sorted_numbers = num_card_occurrences.keys.sort
+        if sorted_numbers == [1,10,11,12,13]
+          return @cards.select { |card| card.number == 1 }.first
+        else
+          @cards.sort_by(&:number).pop
+        end
       end
 
       def num_card_occurrences
