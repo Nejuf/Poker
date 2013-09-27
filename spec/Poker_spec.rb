@@ -11,7 +11,7 @@ describe Poker do
     end
 
     it "Creates a deck of 52 elements" do
-      game.deck.length.should == 52
+      game.deck.length.should == 52 - game.players.length*5
     end
 
     it "Creates a deck consisting of Cards" do
@@ -30,7 +30,10 @@ describe Poker do
 
   describe "#deal" do
 
-    it "Deals to each player until everyone has exactly five cards"
+    it "Deals to each player until everyone has exactly 5 cards" do
+      game.deal
+      expect(game.players.all?{|player| player.hand.length == 5}).to eq true
+    end
 
   end
 

@@ -4,6 +4,12 @@ class Deck
 
   def initialize
     @cards = {}
+    generate_deck
+    @keys_array = @cards.keys
+    @keys_array.shuffle!
+  end
+
+  def generate_deck
     Card::SUITS.each do |suit|
       (1..13).each do |num|
         @cards[suit+num.to_s] = Card.new(suit,num)
@@ -12,7 +18,12 @@ class Deck
   end
 
   def length
-    @cards.length
+    @keys_array.length
+  end
+
+  def draw_card
+    card = @keys_array.pop
+    @cards[card]
   end
 
   #For enumerable module
