@@ -2,16 +2,29 @@ require 'rspec'
 require 'Poker'
 
 describe Poker do
+  subject(:game) {Poker.new}
 
   describe "#initialize" do
 
-    it "Creates two or more players"
+    it "Creates two or more players" do
+      game.players.length.should be > 1
+    end
 
-    it "Creates a deck of 52 cards"
+    it "Creates a deck of 52 elements" do
+      game.deck.length.should == 52
+    end
 
-    it "Gives players starting cash"
+    it "Creates a deck consisting of Cards" do
+      game.deck.all?{|el| el.is_a? Card}.should == true
+    end
 
-    it "Sets starting pot to 0"
+    it "Ensures players have starting cash" do
+      game.players.all?{|player| player.wallet > 0}.should == true
+    end
+
+    it "Sets starting pot to 0" do
+      game.pot.should == 0
+    end
 
   end
 
